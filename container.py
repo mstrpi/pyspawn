@@ -17,14 +17,16 @@ def bdistro():
         match base:
             case 1:
                 bd = distros[0]
+                return bd
             case 2:
                 bd = distros[1]
+                return bd
             case 3:
                 bd = distros[3]
+                return bd
             case _:
                 print("Enter a single digit [1-3]:\n")
                 continue
-        return bd
 
 
 def ntype():

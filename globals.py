@@ -2,7 +2,6 @@
 from main import nspawn
 
 
-# global cn
 cn = nspawn.name
 # global mach_path
 mach_path = "/var/lib/machines"
@@ -19,9 +18,7 @@ ct_net_if = ct_net_path + "/host0.network"
 # global ct_net_mv
 ct_net_mv = ct_net_path + "/mv0.network"
 
-choices = list()
-
-global chosen
+# choices = list()
 
 apt = ["/usr/bin/apt", "apt-get update -y ", "apt install -y "]
 dnf = ["/usr/bin/dnf", "dnf upgrade -y ", "dnf install -y "]
