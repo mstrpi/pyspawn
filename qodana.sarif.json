@@ -7313,7 +7313,7 @@
       },
       "invocations": [
         {
-          "startTimeUtc": "2024-08-06T00:01:37.338626771Z",
+          "startTimeUtc": "2024-08-06T02:05:18.412027492Z",
           "exitCode": 0,
           "executionSuccessful": true
         }
@@ -7322,7 +7322,7 @@
       "versionControlProvenance": [
         {
           "repositoryUri": "https://github.com/mstrpi/pyspawn.git",
-          "revisionId": "ebb93db958316973d491c0ede2045cbe95d96a84",
+          "revisionId": "d69a12f23722c5608c483641d8841104116feaf6",
           "branch": "master",
           "properties": {
             "repoUrl": "https://github.com/mstrpi/pyspawn.git",
@@ -7335,7 +7335,7 @@
       "results": [],
       "automationDetails": {
         "id": "pyspawn/qodana/2024-08-05",
-        "guid": "d54414d2-f846-46e3-a559-46fd62cffffa",
+        "guid": "1b1396df-9318-4411-8511-b52118eee3ab",
         "properties": {
           "jobUrl": ""
         }
@@ -7345,220 +7345,6 @@
         "\n"
       ],
       "properties": {
-        "qodana.sanity.results": [
-          {
-            "ruleId": "PyUnresolvedReferencesInspection",
-            "kind": "fail",
-            "level": "error",
-            "message": {
-              "text": "Unresolved reference 'cn'",
-              "markdown": "Unresolved reference 'cn'"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "functions.py",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 156,
-                    "startColumn": 42,
-                    "charOffset": 4681,
-                    "charLength": 2,
-                    "snippet": {
-                      "text": "cn"
-                    },
-                    "sourceLanguage": "Python"
-                  },
-                  "contextRegion": {
-                    "startLine": 154,
-                    "startColumn": 1,
-                    "charOffset": 4542,
-                    "charLength": 145,
-                    "snippet": {
-                      "text": "def spwn_boot_shell():\n    \"\"\"one of 2 boot options for the container. This does not load dbus\"\"\"\n    os.system(\"systemd-nspawn -M \" + str(cn))\n\n"
-                    },
-                    "sourceLanguage": "Python"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "pyspawn",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "97dc60fba57d3e41",
-              "equalIndicator/v1": "16dc89b9cdd0d9ece219a8c7f8abe1f2ec95db99a54b7034c2cc429f1b45376d"
-            },
-            "properties": {
-              "ideaSeverity": "ERROR",
-              "qodanaSeverity": "Critical"
-            }
-          },
-          {
-            "ruleId": "PyUnresolvedReferencesInspection",
-            "kind": "fail",
-            "level": "error",
-            "message": {
-              "text": "Unresolved reference 'cn'",
-              "markdown": "Unresolved reference 'cn'"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "functions.py",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 243,
-                    "startColumn": 59,
-                    "charOffset": 7186,
-                    "charLength": 2,
-                    "snippet": {
-                      "text": "cn"
-                    },
-                    "sourceLanguage": "Python"
-                  },
-                  "contextRegion": {
-                    "startLine": 241,
-                    "startColumn": 1,
-                    "charOffset": 7038,
-                    "charLength": 153,
-                    "snippet": {
-                      "text": "     and systemd-resolved\"\"\"\n    os.system('''(systemctl disable --now systemd-networkd \\\n    systemd-resolved) >/dev/null | machinectl shell ''' + cn)\n\n"
-                    },
-                    "sourceLanguage": "Python"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "pyspawn",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "61d01c8bc0587d21",
-              "equalIndicator/v1": "1a28ad0875e2d6c3ae9b0356b7974e78b9ba1c26465890ec3975705a3cbcf9d1"
-            },
-            "properties": {
-              "ideaSeverity": "ERROR",
-              "qodanaSeverity": "Critical"
-            }
-          },
-          {
-            "ruleId": "PyUnresolvedReferencesInspection",
-            "kind": "fail",
-            "level": "error",
-            "message": {
-              "text": "Unresolved reference 'cn'",
-              "markdown": "Unresolved reference 'cn'"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "functions.py",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 151,
-                    "startColumn": 42,
-                    "charOffset": 4523,
-                    "charLength": 2,
-                    "snippet": {
-                      "text": "cn"
-                    },
-                    "sourceLanguage": "Python"
-                  },
-                  "contextRegion": {
-                    "startLine": 149,
-                    "startColumn": 1,
-                    "charOffset": 4414,
-                    "charLength": 127,
-                    "snippet": {
-                      "text": "def root_passwd():\n    \"\"\"function to actually set root password\"\"\"\n    os.system(\"systemd-nspawn -M \" + str(cn) + \" passwd\")\n\n"
-                    },
-                    "sourceLanguage": "Python"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "pyspawn",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "eda5c1549d254d3b",
-              "equalIndicator/v1": "3e7249aab5dcb579381eaef91ab6feb143abd37a6fb7d5c3d5890885c701bddc"
-            },
-            "properties": {
-              "ideaSeverity": "ERROR",
-              "qodanaSeverity": "Critical"
-            }
-          },
-          {
-            "ruleId": "PyUnresolvedReferencesInspection",
-            "kind": "fail",
-            "level": "error",
-            "message": {
-              "text": "Unresolved reference 'cn'",
-              "markdown": "Unresolved reference 'cn'"
-            },
-            "locations": [
-              {
-                "physicalLocation": {
-                  "artifactLocation": {
-                    "uri": "functions.py",
-                    "uriBaseId": "SRCROOT"
-                  },
-                  "region": {
-                    "startLine": 161,
-                    "startColumn": 42,
-                    "charOffset": 4807,
-                    "charLength": 2,
-                    "snippet": {
-                      "text": "cn"
-                    },
-                    "sourceLanguage": "Python"
-                  },
-                  "contextRegion": {
-                    "startLine": 159,
-                    "startColumn": 1,
-                    "charOffset": 4688,
-                    "charLength": 133,
-                    "snippet": {
-                      "text": "def spwn_boot_dbus():\n    \"\"\"second of 2 boot options. This one loads dbus\"\"\"\n    os.system(\"systemd-nspawn -M \" + str(cn) + \" -b\")\n\n"
-                    },
-                    "sourceLanguage": "Python"
-                  }
-                },
-                "logicalLocations": [
-                  {
-                    "fullyQualifiedName": "pyspawn",
-                    "kind": "module"
-                  }
-                ]
-              }
-            ],
-            "partialFingerprints": {
-              "equalIndicator/v2": "09c9e2ac96a568df",
-              "equalIndicator/v1": "7e0d4fa1d939d76e68c310fa1db34cda0f49895def744ffeeda8ed8eecc5559a"
-            },
-            "properties": {
-              "ideaSeverity": "ERROR",
-              "qodanaSeverity": "Critical"
-            }
-          }
-        ],
         "configProfile": "starter",
         "deviceId": "3007243a00188a1-eba1-47ad-8eb9-326725dad387",
         "qodanaNewResultSummary": {
@@ -7568,6 +7354,6 @@
     }
   ],
   "properties": {
-    "runTimestamp": "1722902502191"
+    "runTimestamp": "1722909920614"
   }
 }
