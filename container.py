@@ -13,8 +13,8 @@ def bdistro():
         print(str(num) + " " + i)
         num += 1
     while True:
-        base = int(input(" ::> "))
-        match base:
+        base = input(" ::> ")
+        match int(base):
             case 1:
                 bd = distros[0]
                 return bd
@@ -22,7 +22,7 @@ def bdistro():
                 bd = distros[1]
                 return bd
             case 3:
-                bd = distros[3]
+                bd = distros[2]
                 return bd
             case _:
                 print("Enter a single digit [1-3]:\n")
@@ -37,16 +37,17 @@ def ntype():
         print(str(num) + " " + i)
         num += 1
     while True:
-        net = int(input(" ::> "))
-        match net:
+        net = input(" ::> ")
+        match int(net):
             case 1:
                 nt = nets[0]
+                return nt
             case 2:
                 nt = nets[1]
+                return nt
             case _:
                 print("Enter a number [1-2]:\n")
                 continue
-        return nt
 
 
 class Container:
