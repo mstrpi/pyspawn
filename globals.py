@@ -1,8 +1,6 @@
-#!/usr/bin/env python3
-from main import nspawn
+from main import cn
 
 
-cn = nspawn.name
 # global mach_path
 mach_path = "/var/lib/machines"
 # global ct_path
@@ -10,7 +8,7 @@ ct_path = mach_path + '/' + cn
 # global nspawn_path
 nspawn_path = "/etc/systemd/nspawn"
 # global nspawn_file
-nspawn_file = nspawn_path + '/' + cn + ".nspawn"
+nspawn_file = nspawn_path + "/" + cn + ".nspawn"
 # global ct_net_path
 ct_net_path = ct_path + "/etc/systemd/network"
 # global ct_net_if

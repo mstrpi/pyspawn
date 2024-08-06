@@ -3,6 +3,10 @@ import sys
 from globals import *
 
 
+choices = list()
+global chosen
+
+
 def checkroot():
     """Here it should verify admin privileges"""
     if os.getuid() == 0:
@@ -12,6 +16,7 @@ def checkroot():
 
 
 def checkbtrfs():
+    from globals import ct_path
     print('''If btrfs is in place, should a new subvolume be created?
     (This defaults to ''' + ct_path + ").")
     print("\n[ If you don't know what btrfs is, please enter 'n' ]\n")
@@ -42,23 +47,29 @@ def nspawndir(path):
             print('mkdir -p ' + path)
 
 
-def choosepmgr():
+def find_pmgr():
     """This potentially determines the primary package manager
     if its binary exists"""
-    choices = list()
+    from globals import pkg_mgrs
+    global chosen, choices
     for b in pkg_mgrs:
         if os.path.exists(b):
-            choices.append(b)
+            choices += b
         if len(choices) < 2:
             chosen = choices[0]
-            pkginstall(chosen)
+            return chosen
         else:
-            select_mgr(choices)
+            return choices
+    if choices:
+        select_mgr(choices)
+    elif chosen:
+        pkginstall(chosen)
 
 
-def select_mgr(choices):
+def select_mgr(_choices):
     """If more than one package manager is found in the previous function,
     this will prmpt the user to select the preferred one"""
+    global choices
     print('More than one package manager found.\n')
     print('Please choose the default one to use:\n')
     for li in choices:
@@ -66,24 +77,24 @@ def select_mgr(choices):
     while True:
         i = input(' ::> ')
         match i:
-            case 'f"(a.t)"':
-                chosen = apt[0]
-                return pkginstall(chosen)
+            case "apt":
+                _chosen = apt[0]
+                return _chosen
             case "dnf":
-                chosen = dnf[0]
-                return pkginstall(chosen)
+                _chosen = dnf[0]
+                return _chosen
             case "pacman":
-                chosen = pacman[0]
-                return pkginstall(chosen)
+                _chosen = pacman[0]
+                return _chosen
             case _:
                 print('Please type out the name of your choice:\n')
                 continue
 
 
-def pkginstall(chosen):
+def pkginstall(_chosen):
     """This installs the dependencies for systemd-nspawn
     using the found package manager"""
-    match chosen:
+    match _chosen:
         case "apt":
             os.system(apt[1]), os.system(apt[2] + deb_depends)
         case "dnf":
