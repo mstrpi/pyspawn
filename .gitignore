@@ -2,3 +2,6 @@
 /assets/
 /pyspawn.py
 /.vscode/
+!/qodana.sarif.json
+!/qodana.yaml
+!/tags
