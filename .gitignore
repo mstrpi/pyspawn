@@ -2,6 +2,9 @@
 /assets/
 /pyspawn.py
 /.vscode/
-!/qodana.sarif.json
-!/qodana.yaml
-!/tags
+/qodana.sarif.json
+/qodana.yaml
+/tags
+/resources/__pycache__/
+/__pycache__/
+/.gitignore
