@@ -1,35 +1,66 @@
-from container import *
-from functions import *
-from globals import *
+import resources.container as ctr
+import resources.functions as fx
+
+nspawn = ctr.Container()
+
+cn = nspawn.cname
+bd = nspawn.base_distro
+nt = nspawn.net_type
+
+print("\nConfirming container details:\nName: " + cn + "\nPreferred Distro: " +
+      bd + "\nNetwork Type: " + nt)
 
 
-global chosen
-# checkroot()
+# global MACH_PATH
+MACH_PATH = "/var/lib/machines"
+# global ct_path
+ct_path = MACH_PATH + '/' + cn
+# global NSPAWN_PATH
+NSPAWN_PATH = "/etc/systemd/nspawn"
+# global nspawn_file
+nspawn_file = NSPAWN_PATH + "/" + cn + ".nspawn"
+# global ct_net_path
+ct_net_path = ct_path + "/etc/systemd/network"
+# global ct_net_if
+ct_net_if = ct_net_path + "/host0.network"
+# global ct_net_mv
+ct_net_mv = ct_net_path + "/mv0.network"
 
-nspawn = Container(name=cname(), base_distro=bdistro(), net_type=ntype())
+apt = ["/usr/bin/apt", "apt-get update -y ", "apt install -y "]
+dnf = ["/usr/bin/dnf", "dnf upgrade -y ", "dnf install -y "]
+pacman = ["/usr/bin/pacman", "pacman -Syu --no-confirm ",
+          "pacman -Sy --no-confirm "]
+pkg_mgrs = [apt[0], dnf[0], pacman[0]]
 
-print(nspawn.name, nspawn.base_distro, nspawn.net_type)
+ct_depends = ["systemd-container ", "dbus-broker "]
+deb_depends = ["debootstrap ", ct_depends]
+fed_depends = ["dnf ", ct_depends]
+arc_depends = ["arch-install-scripts ", ct_depends]
 
-cn = nspawn.name
+fx.checkbtrfs(ct_path)
 
-checkbtrfs()
+fx.machdir(MACH_PATH)
 
-machdir(mach_path), nspawndir(nspawn_path)
+fx.nspawndir(NSPAWN_PATH)
 
-find_pmgr(), pkginstall(chosen)
+fx.find_pmgr(pkg_mgrs)
 
-match nspawn.base_distro:
+match bd:
     case "debian":
-        ndebian()
+        fx.ndebian()
     case "fedora":
-        nfedora()
+        fx.nfedora()
     case "arch":
-        narch()
+        fx.narch()
 
-match nspawn.net_type:
+match nt:
     case "host":
-        host_net()
+        fx.host_net()
     case "private":
-        priv_net()
+        fx.priv_net()
 
-selinux_disable(), root_passwd(), selinux_enable()
+fx.selinux_disable()
+
+fx.root_passwd()
+
+fx.selinux_enable()
