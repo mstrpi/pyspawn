@@ -1,6 +1,6 @@
 import resources.container as ctr
 import resources.functions as fx
-import os
+
 
 fx.checkroot()
 
@@ -39,10 +39,10 @@ pacman = ["/usr/bin/pacman", "pacman -Syu --no-confirm ", "pacman -Sy --no-confi
 pkg_mgr = ["apt", "dnf", "pacman"]
 
 ct_depends = ["systemd-container ", "dbus-broker "]
-deb_depends = str(ct_depends + "debootstrap ")
-fed_depends = str(ct_depends + "dnf ")
-arc_depends = str(ct_depends + "arch-install-scripts ")
-x_depends = [deb_depends, fed_depends, arc_depends]
+deb_depends = str(ct_depends) + "debootstrap "
+fed_depends = ct_depends + "dnf "
+arc_depends = ct_depends + "arch-install-scripts "
+x_depends = [str(deb_depends), str(fed_depends), str(arc_depends)]
 
 pkg_mgr_bin = [apt[0], dnf[0], pacman[0]]
 apt_up = str(apt[1])
@@ -69,21 +69,21 @@ fx.deps_pmgr(chosen, pkgmgrvar, apt_cmds, fed_cmds, arc_cmds)
 
 match bd:
     case "debian":
-        fx.ndebian()
+        fx.ndebian(ct_path)
     case "fedora":
-        fx.nfedora()
+        fx.nfedora(ct_path)
     case "arch":
-        fx.narch()
+        fx.narch(ct_path)
 
 match nt:
     case "host":
-        fx.host_net()
+        fx.host_net(nspawn_file, ct_net_if)
     case "private":
-        fx.priv_net()
+        fx.priv_net(nspawn_file, ct_net_mv)
 
 fx.selinux_disable()
 
-fx.root_passwd()
+fx.root_passwd(cn)
 
 fx.selinux_enable()
 

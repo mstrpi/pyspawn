@@ -72,7 +72,7 @@ def select_mgr(choices, chosen, pkg_mgr_bin):
             case re.Match('.*(apt)'):
                 chosen = pkg_mgr_bin[0]
                 return chosen
-            case re.Match ('.*(dnf)'):
+            case re.Match('.*(dnf)'):
                 chosen = pkg_mgr_bin[1]
                 return chosen
             case re.Match('.*(pacman)'):
@@ -83,19 +83,19 @@ def select_mgr(choices, chosen, pkg_mgr_bin):
                 continue
 
 
-def deps_pmgr(chosen, pkgmgrvar, apt_cmds, fed_cmds, arc_cmds):
+def deps_pmgr(chosen, apt_cmds, fed_cmds, arc_cmds):
     """This step adds specific container installation dependencies
     to the chosen package manager dependencies in a single variable"""    
     match chosen:
         case re.Match('.*(apt)'):
             pkgmgrvar = apt_cmds
-            os.system(pkgmgrvar)
+            return os.system(pkgmgrvar)
         case re.Match('.*(dnf)'):
             pkgmgrvar = fed_cmds
-            os.system(pkgmgrvar)
+            return os.system(pkgmgrvar)
         case re.Match('.*(pacman)'):
             pkgmgrvar = arc_cmds
-            os.system(pkgmgrvar)
+            return os.system(pkgmgrvar)
 
 
 # def pkginstall(pkgmgrvar):
