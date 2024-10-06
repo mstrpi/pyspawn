@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """defining all functions for pyspawn"""
 import os
+import re
 import sys
-
-choices = []
 
 
 def checkroot():
@@ -47,28 +46,22 @@ def nspawndir(path):
             print('mkdir -p ' + path)
 
 
-def find_pmgr(pkg_mgrs):
+def find_pmgr(pkg_mgr_bin, choices, chosen):
     """This potentially determines the primary package manager
     if its binary exists"""
-    global chosen, choices
-    for b in pkg_mgrs:
+    for b in pkg_mgr_bin:
         if os.path.exists(b):
-            choices += b
-        if len(choices) < 2:
-            chosen = choices[0]
-            return chosen
-        else:
-            return choices
-    if choices:
-        select_mgr(choices)
-    elif chosen:
-        pkginstall(chosen)
+            choices.append(b)
+            if len(choices) == 1:
+                chosen = choices[0]
+                return chosen
+            else:
+                select_mgr(choices, chosen, pkg_mgr_bin)
 
 
-def select_mgr(choices):
+def select_mgr(choices, chosen, pkg_mgr_bin):
     """If more than one package manager is found in the previous function,
     this will prmpt the user to select the preferred one"""
-    global apt, dnf, pacman
     print('More than one package manager found.\n')
     print('Please choose the default one to use:\n')
     for li in choices:
@@ -76,31 +69,45 @@ def select_mgr(choices):
     while True:
         i = input(' ::> ')
         match i:
-            case "apt":
-                chosen = apt[0]
+            case re.Match('.*(apt)'):
+                chosen = pkg_mgr_bin[0]
                 return chosen
-            case "dnf":
-                chosen = dnf[0]
+            case re.Match('.*(dnf)'):
+                chosen = pkg_mgr_bin[1]
                 return chosen
-            case "pacman":
-                chosen = pacman[0]
+            case re.Match('.*(pacman)'):
+                chosen = pkg_mgr_bin[2]
                 return chosen
             case _:
                 print('Please type out the name of your choice:\n')
                 continue
 
 
-def pkginstall(chosen):
-    """This installs the dependencies for systemd-nspawn
-    using the found package manager"""
-    global deb_depends, fed_depends, arc_depends
+def deps_pmgr(chosen, apt_cmds, fed_cmds, arc_cmds):
+    """This step adds specific container installation dependencies
+    to the chosen package manager dependencies in a single variable"""    
     match chosen:
-        case "apt":
-            os.system(apt[1]), os.system(apt[2] + deb_depends)
-        case "dnf":
-            os.system(dnf[1]), os.system(dnf[2] + fed_depends)
-        case "pacman":
-            os.system(pacman[1]), os.system(pacman[2] + arc_depends)
+        case re.Match('.*(apt)'):
+            pkgmgrvar = apt_cmds
+            return os.system(pkgmgrvar)
+        case re.Match('.*(dnf)'):
+            pkgmgrvar = fed_cmds
+            return os.system(pkgmgrvar)
+        case re.Match('.*(pacman)'):
+            pkgmgrvar = arc_cmds
+            return os.system(pkgmgrvar)
+
+
+# def pkginstall(pkgmgrvar):
+#    """This installs the dependencies for systemd-nspawn
+#    using the found package manager"""
+#    match chosen:
+#        case "apt":
+#            os.system(pkgmgrvar)
+#        case "dnf":
+#            os.system(pkgmgrvar)
+#        case "pacman":
+#            os.system(pacman[1]), os.system(pacman[2] + x_depends[2])
 
 
 def ndebian(ct_path):
@@ -108,8 +115,8 @@ def ndebian(ct_path):
     Selects stable otherwise and installs root fs"""
     print('Would you like to test the unstable branch? [y/n]\n')
     stbl = input(" ::> ")
-    match stbl.lower():
-        case "y":
+    match stbl.upper():
+        case "Y":
             branch = 'unstable '
         case _:
             branch = 'stable '
@@ -148,39 +155,35 @@ def selinux_enable():
 
 def root_passwd(cn):
     """function to actually set root password"""
-    os.system("systemd-nspawn -M " + str(cn) + " passwd")
+    os.system("/usr/bin/systemd-nspawn -M " + cn + " passwd")
 
 
 def spwn_boot_shell(cn):
     """one of 2 boot options for the container. This does not load dbus"""
-    os.system("systemd-nspawn -M " + str(cn))
+    os.system("/usr/bin/systemd-nspawn -M " + cn)
 
 
 def spwn_boot_dbus(cn):
     """second of 2 boot options. This one loads dbus"""
-    os.system("systemd-nspawn -M " + str(cn) + " -b")
+    os.system("/usr/bin/systemd-nspawn -M " + cn + " -b")
 
 
 def host_net(nspawn_file):
     """Shares network and ports with host device"""
-    os.system("cat> " + nspawn_file + " <<EOF" + "\n" + '''[Exec]\n
-    PrivateUsers=False\n
-    \n
-    [Network]\n
-    Private=off\n
-    VirtualEthernet=false\n
-    EOF''' + "\n")
+    os.system("cat> " + nspawn_file + " <<EOF" + "\n" +
+              "[Exec]\nPrivateUsers=False\n\n[Network]\n" +
+              "Private=off\nVirtualEthernet=false\nEOF" + "\n")
 
 
-def priv_net():
+def priv_net(nspawn_file, ct_net_if, ct_net_mv):
     """first stage of setting up independent network for the container"""
     print("Here, there are a few options depending on the host's set up. \n")
     print("Is there currently a network bridge in place? (if unknown, enter 'n') \n")
     i = input(" ::> ")
     if i.upper() == "Y":
-        p_net_bridge()
+        p_net_bridge(nspawn_file, ct_net_if)
     else:
-        p_net_mvlan()
+        p_net_mvlan(nspawn_file, ct_net_mv)
 
 
 def p_net_bridge(nspawn_file, ct_net_if):
@@ -216,31 +219,28 @@ def p_net_mvlan(nspawn_file, ct_net_mv):
               "EOF" + "\n")
 
 
-def systemd_nr_disable(cn):
+def systemd_nr_disable(ct_path):
     """if nspawn network is set as host, this will disable systemd-networkd
      and systemd-resolved"""
-    os.system('''(systemctl disable --now systemd-networkd \
-    systemd-resolved) >/dev/null | machinectl shell ''' + cn)
+    os.system("/usr/bin/systemd-nspawn -d " + ct_path + " systemctl disable systemd-networkd systemd-resolved")
 
 
-def systemd_nr_enable(cn):
+def systemd_nr_enable(ct_path):
     """if nspawn network is set as private, this will enable systemd-networkd
     and systemd-resolved"""
-    os.system('''(systemctl enable --now systemd-networkd \
-    systemd-resolved) >/dev/null | machinectl shell ''' + cn)
+    os.system("/usr/bin/systemd-nspawn -d " + ct_path + " systemctl enable systemd-networkd")
 
 
-def ct_hostname(cn):
+def ct_hostname(ct_path):
     """sets a hostname for the container"""
-    print("Would you like to set a hostname with domain?\n")
+    print("Would you like to set a custom hostname with domain?\n")
     while True:
         confirm = input(" ::> ")
         match confirm.upper():
             case "Y":
                 print("Enter hostname:\n")
                 hname = input(" ::> ")
-                os.system("/usr/bin/hostnamectl set-hostname " + hname + " | " +
-                          "machinectl shell " + cn)
+                os.system("/usr/bin/systemd-nspawn -d " + ct_path + " hostnamectl set-hostname " + hname)
             case "N":
                 pass
             case _:

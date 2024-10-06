@@ -51,7 +51,7 @@ def net_type():
                 continue
 
 
-class Container():
+class Container:
     def __init__(self):
         self.cname = cname()
         self.base_distro = base_distro()
