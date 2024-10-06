@@ -25,12 +25,14 @@
 !_TAG_KIND_DESCRIPTION!Python	i,module	/modules/
 !_TAG_KIND_DESCRIPTION!Python	m,member	/class members/
 !_TAG_KIND_DESCRIPTION!Python	v,variable	/variables/
+!_TAG_KIND_DESCRIPTION!Yaml	a,anchor	/anchors/
 !_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
 !_TAG_OUTPUT_VERSION	0.0	/current.age/
 !_TAG_PARSER_VERSION!Markdown	0.0	/current.age/
 !_TAG_PARSER_VERSION!Python	0.0	/current.age/
+!_TAG_PARSER_VERSION!Yaml	0.0	/current.age/
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
 !_TAG_PROC_CWD	/srv/git/pyspawn/	//
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
@@ -42,71 +44,70 @@
 !_TAG_ROLE_DESCRIPTION!Python!module	namespace	/namespace from where classes\/variables\/functions are imported/
 !_TAG_ROLE_DESCRIPTION!Python!unknown	imported	/imported from the other module/
 !_TAG_ROLE_DESCRIPTION!Python!unknown	indirectlyImported	/classes\/variables\/functions\/modules imported in alternative name/
+!_TAG_ROLE_DESCRIPTION!Yaml!anchor	alias	/alias/
 Container	resources/container.py	/^class Container():$/;"	c
+MACH_PATH	main.py	/^MACH_PATH = "\/var\/lib\/machines"$/;"	v
+NSPAWN_PATH	main.py	/^NSPAWN_PATH = "\/etc\/systemd\/nspawn"$/;"	v
 __init__	resources/container.py	/^    def __init__(self):$/;"	m	class:Container
 apt	main.py	/^apt = ["\/usr\/bin\/apt", "apt-get update -y ", "apt install -y "]$/;"	v
 apt	resources/globals.py	/^apt = ["\/usr\/bin\/apt", "apt-get update -y ", "apt install -y "]$/;"	v
 arc_depends	main.py	/^arc_depends = ["arch-install-scripts ", ct_depends]$/;"	v
 arc_depends	resources/globals.py	/^arc_depends = ["arch-install-scripts ", ct_depends]$/;"	v
 base_distro	resources/container.py	/^def base_distro():$/;"	f
-bd	main.py	/^bd = rsc.ctr.nspawn.base_distro$/;"	v
-checkbtrfs	resources/functions.py	/^def checkbtrfs():$/;"	f
+bd	main.py	/^bd = nspawn.base_distro$/;"	v
+checkbtrfs	resources/functions.py	/^def checkbtrfs(ct_path):$/;"	f
 checkroot	resources/functions.py	/^def checkroot():$/;"	f
-choices	resources/functions.py	/^choices = list()$/;"	v
+choices	resources/functions.py	/^choices = []$/;"	v
 cn	main.py	/^cn = nspawn.cname$/;"	v
-cn	main.py	/^cn = rsc.ctr.nspawn.cname$/;"	v
 cname	resources/container.py	/^def cname():$/;"	f
 ct_depends	main.py	/^ct_depends = ["systemd-container ", "dbus-broker "]$/;"	v
 ct_depends	resources/globals.py	/^ct_depends = ["systemd-container ", "dbus-broker "]$/;"	v
-ct_hostname	resources/functions.py	/^def ct_hostname():$/;"	f
+ct_hostname	resources/functions.py	/^def ct_hostname(cn):$/;"	f
 ct_net_if	main.py	/^ct_net_if = ct_net_path + "\/host0.network"$/;"	v
 ct_net_if	resources/globals.py	/^ct_net_if = ct_net_path + "\/host0.network"$/;"	v
 ct_net_mv	main.py	/^ct_net_mv = ct_net_path + "\/mv0.network"$/;"	v
 ct_net_mv	resources/globals.py	/^ct_net_mv = ct_net_path + "\/mv0.network"$/;"	v
 ct_net_path	main.py	/^ct_net_path = ct_path + "\/etc\/systemd\/network"$/;"	v
 ct_net_path	resources/globals.py	/^ct_net_path = ct_path + "\/etc\/systemd\/network"$/;"	v
-ct_path	main.py	/^ct_path = mach_path + '\/' + cn$/;"	v
+ct_path	main.py	/^ct_path = MACH_PATH + '\/' + cn$/;"	v
 ct_path	resources/globals.py	/^ct_path = mach_path + '\/' + cn$/;"	v
-ctr	resources/__init__.py	/^import container as ctr$/;"	I	nameref:module:container
+ctr	main.py	/^import resources.container as ctr$/;"	I	nameref:module:resources.container
 deb_depends	main.py	/^deb_depends = ["debootstrap ", ct_depends]$/;"	v
 deb_depends	resources/globals.py	/^deb_depends = ["debootstrap ", ct_depends]$/;"	v
 dnf	main.py	/^dnf = ["\/usr\/bin\/dnf", "dnf upgrade -y ", "dnf install -y "]$/;"	v
 dnf	resources/globals.py	/^dnf = ["\/usr\/bin\/dnf", "dnf upgrade -y ", "dnf install -y "]$/;"	v
 fed_depends	main.py	/^fed_depends = ["dnf ", ct_depends]$/;"	v
 fed_depends	resources/globals.py	/^fed_depends = ["dnf ", ct_depends]$/;"	v
-find_pmgr	resources/functions.py	/^def find_pmgr():$/;"	f
-fx	resources/__init__.py	/^import functions as fx$/;"	I	nameref:module:functions
-host_net	resources/functions.py	/^def host_net():$/;"	f
-mach_path	main.py	/^mach_path = "\/var\/lib\/machines"$/;"	v
+find_pmgr	resources/functions.py	/^def find_pmgr(pkg_mgrs):$/;"	f
+fx	main.py	/^import resources.functions as fx$/;"	I	nameref:module:resources.functions
+host_net	resources/functions.py	/^def host_net(nspawn_file):$/;"	f
 mach_path	resources/globals.py	/^mach_path = "\/var\/lib\/machines"$/;"	v
 machdir	resources/functions.py	/^def machdir(path):$/;"	f
-narch	resources/functions.py	/^def narch():$/;"	f
-ndebian	resources/functions.py	/^def ndebian():$/;"	f
+narch	resources/functions.py	/^def narch(ct_path):$/;"	f
+ndebian	resources/functions.py	/^def ndebian(ct_path):$/;"	f
 net_type	resources/container.py	/^def net_type():$/;"	f
-nfedora	resources/functions.py	/^def nfedora():$/;"	f
-nspawn	main.py	/^nspawn = rsc.container.nspawn()$/;"	v
-nspawn	resources/container.py	/^nspawn = Container()$/;"	v
-nspawn_file	main.py	/^nspawn_file = nspawn_path + "\/" + cn + ".nspawn"$/;"	v
+nfedora	resources/functions.py	/^def nfedora(ct_path):$/;"	f
+nspawn	main.py	/^nspawn = ctr.Container()$/;"	v
+nspawn	resources/container.py	/^    nspawn = Container()$/;"	v
+nspawn_file	main.py	/^nspawn_file = NSPAWN_PATH + "\/" + cn + ".nspawn"$/;"	v
 nspawn_file	resources/globals.py	/^nspawn_file = nspawn_path + "\/" + cn + ".nspawn"$/;"	v
-nspawn_path	main.py	/^nspawn_path = "\/etc\/systemd\/nspawn"$/;"	v
 nspawn_path	resources/globals.py	/^nspawn_path = "\/etc\/systemd\/nspawn"$/;"	v
 nspawndir	resources/functions.py	/^def nspawndir(path):$/;"	f
-nt	main.py	/^nt = rsc.ctr.nspawn.net_type$/;"	v
-p_net_bridge	resources/functions.py	/^def p_net_bridge():$/;"	f
-p_net_mvlan	resources/functions.py	/^def p_net_mvlan():$/;"	f
-pacman	main.py	/^pacman = ["\/usr\/bin\/pacman", "pacman -Syu --no-confirm ", "pacman -Sy --no-confirm "]$/;"	v
+nt	main.py	/^nt = nspawn.net_type$/;"	v
+p_net_bridge	resources/functions.py	/^def p_net_bridge(nspawn_file, ct_net_if):$/;"	f
+p_net_mvlan	resources/functions.py	/^def p_net_mvlan(nspawn_file, ct_net_mv):$/;"	f
+pacman	main.py	/^pacman = ["\/usr\/bin\/pacman", "pacman -Syu --no-confirm ",$/;"	v
 pacman	resources/globals.py	/^pacman = ["\/usr\/bin\/pacman", "pacman -Syu --no-confirm ", "pacman -Sy --no-confirm "]$/;"	v
 pkg_mgrs	main.py	/^pkg_mgrs = [apt[0], dnf[0], pacman[0]]$/;"	v
 pkg_mgrs	resources/globals.py	/^pkg_mgrs = [apt[0], dnf[0], pacman[0]]$/;"	v
-pkginstall	resources/functions.py	/^def pkginstall(_chosen):$/;"	f
+pkginstall	resources/functions.py	/^def pkginstall(chosen):$/;"	f
 priv_net	resources/functions.py	/^def priv_net():$/;"	f
 pyspawn	README.md	/^# pyspawn$/;"	c
-root_passwd	resources/functions.py	/^def root_passwd():$/;"	f
-rsc	main.py	/^import resources as rsc$/;"	I	nameref:module:resources
-select_mgr	resources/functions.py	/^def select_mgr(_choices):$/;"	f
+root_passwd	resources/functions.py	/^def root_passwd(cn):$/;"	f
+select_mgr	resources/functions.py	/^def select_mgr(choices):$/;"	f
 selinux_disable	resources/functions.py	/^def selinux_disable():$/;"	f
 selinux_enable	resources/functions.py	/^def selinux_enable():$/;"	f
-spwn_boot_dbus	resources/functions.py	/^def spwn_boot_dbus():$/;"	f
-spwn_boot_shell	resources/functions.py	/^def spwn_boot_shell():$/;"	f
-systemd_nr_disable	resources/functions.py	/^def systemd_nr_disable():$/;"	f
-systemd_nr_enable	resources/functions.py	/^def systemd_nr_enable():$/;"	f
+spwn_boot_dbus	resources/functions.py	/^def spwn_boot_dbus(cn):$/;"	f
+spwn_boot_shell	resources/functions.py	/^def spwn_boot_shell(cn):$/;"	f
+systemd_nr_disable	resources/functions.py	/^def systemd_nr_disable(cn):$/;"	f
+systemd_nr_enable	resources/functions.py	/^def systemd_nr_enable(cn):$/;"	f
