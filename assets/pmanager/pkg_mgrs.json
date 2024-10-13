@@ -1,0 +1,39 @@
+{
+  "pkg_managers": [
+    {
+      "apt": [
+        {
+          "bin": "/usr/bin/apt ",
+          "commands": [
+            {
+              "install": "apt install -y ",
+              "update": "apt-get update -y "
+            }
+          ]
+        }
+      ],
+      "dnf": [
+        {
+          "bin": "/usr/bin/dnf ",
+          "commands": [
+            {
+              "install": "dnf install -y ",
+              "update": "dnf check-update "
+            }
+          ]
+        }
+      ],
+      "pacman": [
+        {
+          "bin": "/usr/bin/pacman ",
+          "commands": [
+            {
+              "install": "pacman -Sy --no-confirm ",
+              "update": "pacman -Syu --no-confirm "
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
