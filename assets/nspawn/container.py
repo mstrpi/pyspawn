@@ -68,7 +68,7 @@ class Container:
 
 
 def main():
-    nspawn = Container()
+    __nspawn__ = Container()
 
 
 if __name__ == "__main__":

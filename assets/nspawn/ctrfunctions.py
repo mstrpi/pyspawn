@@ -138,9 +138,9 @@ def p_net_mvlan(nspawn_file, ct_net_mv):
                     continue
 
 
-def firstCmd(__mach_path__, __nspawn_path__):
+def firstcmd(__mach_path__, __nspawn_path__):
     machdir(__mach_path__)
     nspawndir(__nspawn_path__)
 
 
-def secondCmd():
+def secondcmd():

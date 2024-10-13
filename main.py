@@ -1,6 +1,6 @@
-from nspawn.container import nspawn
-from functions import *
-from pmanager import pkginstall as pkm
+from .assets.nspawn.container import nspawn
+from .assets.roothost.functions import *
+from .assets.pmanager import pkginstall as pkm
 from nspawn.ctrfunctions import *
 
 
@@ -29,9 +29,9 @@ def main():
 
     checkbtrfs(ct_path)
 
-    firstCmd(mach_path, nspawn_path)
+    firstcmd(mach_path, nspawn_path)
 
-    pkm.main()
+    pkm.main(pakbins, choices, chosen, apt_cmds, dnf_cmds, pac_cmds)
 
     match bd:
         case "debian":
